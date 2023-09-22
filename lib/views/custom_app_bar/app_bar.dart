@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/views/text_view/text_view_all.dart';
 
-import '../services/colors.dart';
-import '../services/strings.dart';
+import '../../services/colors.dart';
+import '../../services/strings.dart';
 
 class CustomAppBar extends StatelessWidget {
   final String text;

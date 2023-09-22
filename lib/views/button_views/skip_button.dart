@@ -15,7 +15,7 @@ class SkipButton extends StatelessWidget {
       onPressed: () {
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) =>  SignInScreen()), (route) => false);
       },
-      child:  const CustomTextWidget(
+      child: CustomTextWidget(
         text: CustomString.skip,
         fontSize: 23,
         color: CustomColors.orange,

@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:restaurant_app/screens/sign_up.dart';
 import 'package:restaurant_app/src/service_locator.dart';
-import 'package:restaurant_app/views/app_bar.dart';
+import 'package:restaurant_app/views/custom_app_bar/app_bar.dart';
 import 'package:restaurant_app/views/button_views/custom_link_button.dart';
 import 'package:restaurant_app/views/button_views/cutom_button_next.dart';
 import 'package:restaurant_app/views/custom_text_fild.dart';
@@ -12,16 +15,19 @@ import '../views/text_view/text_view_all.dart';
 import 'home_page.dart';
 
 class SignInScreen extends StatelessWidget {
+
   SignInScreen({Key? key}) : super(key: key);
+
   final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerPassword = TextEditingController();
 
   void checkLogIn(BuildContext context){
-   final login = logInRepository.readUser();
-    if(controllerEmail.text == login.first.email && controllerEmail.text == login.first.password){
+   List login = logInRepository.readUser();
+    if(controllerEmail.text.trim() == login.first.email && controllerPassword.text.trim() == login.first.password){
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomePage()), (route) => false);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -30,8 +36,8 @@ class SignInScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
          const CustomAppBar(text: CustomString.logIn),
-          const SizedBox(height: 10,),
-            const Row(
+           SizedBox(height: 10.h,),
+             Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CustomTextWidget(
@@ -49,29 +55,29 @@ class SignInScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CustomTextWidget(text: CustomString.email, fontSize: 20),
+                 CustomTextWidget(text: CustomString.email, fontSize: 20),
                 SizedBox(
-                  height: 60,
+                  height: 60.h,
                   child: CustomTextField(
                     prefix: CustomIcons.email,
                     controller: controllerEmail,
                   ),
                 ),
-                const SizedBox(
-                  height: 15,
+                 SizedBox(
+                  height: 15.h,
                 ),
-                const CustomTextWidget(
+                 CustomTextWidget(
                   text: CustomString.password,
-                  fontSize: 20,
+                  fontSize: 20.sp,
                 ),
                 SizedBox(
-                  height: 60,
+                  height: 60.h,
                   child: CustomTextField(
                     prefix: CustomIcons.lock,
                     controller: controllerPassword,
                   ),
                 ),
-                const SizedBox(height: 30,),
+                 SizedBox(height: 30.h,),
                 CustomButton(
                   page: () => checkLogIn(context),
                   text: CustomString.next,
@@ -79,43 +85,43 @@ class SignInScreen extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 30,),
-          const CustomLinkButton(
+           SizedBox(height: 30.h,),
+           CustomLinkButton(
               widget: [
-                Image(
+                const Image(
                   image: CustomImages.googleLogo,
                   height: 30,
                   width: 50,
                 ),
-                Spacer(),
+               const  Spacer(),
                 Center(
                   child: CustomTextWidget(text: CustomString.google, fontSize: 18),
                 ),
-                Spacer(),
+                const Spacer(),
               ]),
-          const SizedBox(
-            height: 20,
+           SizedBox(
+            height: 20.h,
           ),
-          const CustomLinkButton(
+          CustomLinkButton(
             widget: [
               CustomIcons.facebook,
-              Spacer(),
+              const Spacer(),
               Center(
                 child:
-                CustomTextWidget(text: CustomString.facebook, fontSize: 18),
+                CustomTextWidget(text: CustomString.facebook, fontSize: 18.sp),
               ),
-              Spacer(),
+             const  Spacer(),
             ],
           ),
-         const  SizedBox(height: 20,),
+           SizedBox(height: 20.h,),
           Center(
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const CustomTextWidget(
-                  text: CustomString.already,
-                  fontSize: 20,
+                CustomTextWidget(
+                  text: CustomString.dontHaveAccount,
+                  fontSize: 15.sp,
                   color: Colors.grey,
                 ),
                 TextButton(
@@ -123,10 +129,10 @@ class SignInScreen extends StatelessWidget {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
                   },
                   clipBehavior: Clip.antiAlias,
-                  child: const CustomTextWidget(
+                  child:  CustomTextWidget(
                     text: CustomString.signUp,
                     decoration: TextDecoration.underline,
-                    fontSize: 22,
+                    fontSize: 17.sp,
                     color: Colors.red,
                   ),
                 ),
