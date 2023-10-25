@@ -1,10 +1,6 @@
-
-
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:restaurant_app/services/clip_path_app_bar.dart';
+import 'package:restaurant_app/packages_all.dart';
 
-import '../../services/colors.dart';
 
 class HomePageAppBar extends StatelessWidget {
   const HomePageAppBar({Key? key}) : super(key: key);

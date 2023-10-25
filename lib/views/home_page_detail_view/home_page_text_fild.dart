@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/services/icons.dart';
-import '../services/strings.dart';
+import 'package:restaurant_app/packages_all.dart';
+
 
 class TextFieldSearch extends StatelessWidget {
   final TextEditingController controller;
@@ -9,8 +9,12 @@ class TextFieldSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Container(
+      height: 45.h,
       alignment: Alignment.center,
-      margin: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+      margin: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 10,
+      ),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.2),
@@ -18,9 +22,10 @@ class TextFieldSearch extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
-        decoration:  const InputDecoration(
+        decoration: const InputDecoration(
             hintText: CustomString.search,
             filled: true,
+            fillColor: Colors.transparent,
             border: InputBorder.none,
             prefixIcon: CustomIcons.searchIcon,
         ),

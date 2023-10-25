@@ -1,15 +1,13 @@
 import 'dart:convert';
-
 import 'package:restaurant_app/src/user_login_model.dart';
-
 import 'local_data_source.dart';
 
 abstract class UserRepository{
-  Future<bool> storeUser(User login);
-  List<User> readUser();
-  Future<bool> delateUser(User login);
+  Future<bool> storeUser(UserSRC login);
+  List<UserSRC> readUser();
+  Future<bool> deleteUser(UserSRC login);
   Future<bool> clareCache();
-  Future<bool> editUser(User login);
+  Future<bool> editUser(UserSRC login);
 }
 class UserRepositoryImplements implements UserRepository{
   final LocalDataSource dataSource;
@@ -20,7 +18,7 @@ class UserRepositoryImplements implements UserRepository{
   }
 
   @override
-  Future<bool> delateUser(User login) {
+  Future<bool> deleteUser(UserSRC login) {
     final list = readUser();
     list.remove(login);
     final json = list.map((e) => e.toJson()).toList();
@@ -30,14 +28,14 @@ class UserRepositoryImplements implements UserRepository{
 
 
   @override
-  List<User> readUser() {
+  List<UserSRC> readUser() {
     String data = dataSource.read(StorageLogInKey.login) ?? "[]";
     final json = jsonDecode(data) as List;
-    return json.map((item) => User.fromJson(item as Map<String,dynamic>)).toList();
+    return json.map((item) => UserSRC.fromJson(item as Map<String,dynamic>)).toList();
   }
 
   @override
-  Future<bool> storeUser(User login) async{
+  Future<bool> storeUser(UserSRC login) async{
     final list = readUser();
     list.clear();
     list.add(login);
@@ -47,7 +45,7 @@ class UserRepositoryImplements implements UserRepository{
   }
 
   @override
-  Future<bool> editUser(User login) {
+  Future<bool> editUser(UserSRC login) {
     final list = readUser();
     list.removeWhere((element) => element.id == login.id);
     list.add(login);

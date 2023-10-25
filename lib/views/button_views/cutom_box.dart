@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
-
-import '../../services/colors.dart';
+import 'package:restaurant_app/packages_all.dart';
 
 class CustomBox extends StatelessWidget {
   final double height;

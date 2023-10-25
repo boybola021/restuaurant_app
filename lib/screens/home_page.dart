@@ -1,14 +1,8 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:restaurant_app/screens/sign_in_pages.dart';
-import 'package:restaurant_app/services/colors.dart';
-import 'package:restaurant_app/services/icons.dart';
-import 'package:restaurant_app/services/strings.dart';
-import 'package:restaurant_app/src/service_locator.dart';
-import 'package:restaurant_app/views/custom_app_bar/home_app_bar.dart';
-import 'package:restaurant_app/views/home_page_text_fild.dart';
+import 'package:restaurant_app/packages_all.dart';
+import 'package:restaurant_app/views/button_views/delete_user_button.dart';
+import 'package:restaurant_app/views/button_views/logout_button.dart';
+import 'loading_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,125 +14,100 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController controller = TextEditingController();
   CarouselController carouselController = CarouselController();
-  int currentIndex = 0;
+  List<UserSRC> login = [];
 
-  final login = logInRepository.readUser().first;
-
-  void logout(BuildContext context) async {
-    logInRepository.delateUser(login).then(
-      (value) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => SignInScreen(),
-          ),
-        );
-      },
-    );
+  @override
+  void initState() {
+    super.initState();
+    login = logInRepository.readUser();
+    context.read<AllProductsCubit>().allData();
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(150.h),
-        child: AppBar(
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.logout),
-            ),
-          ],
-          flexibleSpace: const HomePageAppBar(),
-        ),
+      appBar: AppBar(
+        elevation: 0,
+        actions: const [
+          CustomBadgeView(),
+          SizedBox(
+            width: 20,
+          ),
+        ],
       ),
       drawer: Drawer(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             UserAccountsDrawerHeader(
-              accountName: const Text(
-                "login.name",
-                style: TextStyle(fontSize: 20),
+              accountName: Text(
+                login.first.name ?? "",
+                style: const TextStyle(fontSize: 20),
               ),
-              accountEmail: Text("login.email" ?? "",
+              accountEmail: Text(login.first.email ?? "",
                   style: Theme.of(context).textTheme.titleLarge),
             ),
+
+            /// #log out
+           const LogOutButton(),
+            /// #delate account
+            DeleteUserButton(login: login,),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 0,
-        selectedItemColor: CustomColors.pink,
-        unselectedItemColor: Colors.white,
-        currentIndex: currentIndex,
-        type: BottomNavigationBarType.shifting,
-        onTap: (value) {
-          currentIndex = value;
-          setState(() {});
-        },
-        items: const [
-          BottomNavigationBarItem(
-              icon: CustomIcons.home, label: CustomString.home),
-          BottomNavigationBarItem(
-              icon: CustomIcons.menu, label: CustomString.menu),
-          BottomNavigationBarItem(
-              icon: CustomIcons.heart,
-              label: CustomString.favourite,
-              activeIcon: CustomIcons.heartFill),
-          BottomNavigationBarItem(
-              icon: CustomIcons.cart, label: CustomString.cart),
-        ],
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          /// #TextFild
-          TextFieldSearch(controller: controller),
-          SizedBox(
-            height: 150,
-            child: CarouselSlider(
-              options: CarouselOptions(
-                height: 150,
-                aspectRatio: 16 / 9,
-                viewportFraction: 0.8,
-                initialPage: 0,
-                enableInfiniteScroll: true,
-                reverse: false,
-                autoPlay: true,
-                autoPlayInterval: const Duration(seconds: 3),
-                autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                autoPlayCurve: Curves.easeInCirc,
-                enlargeCenterPage: true,
-                enlargeFactor: 0.3,
-                scrollDirection: Axis.horizontal,
-              ),
-              items: [
-                Container(
-                  color: Colors.red,
+      body: BlocBuilder<AllProductsCubit, AllProductsState>(
+        builder: (context, state) {
+          if (state is AllProductsInitial) {
+            return const LoadingPage();
+          }
+          if (state is GetAllProducts && state.products.isNotEmpty) {
+            return CustomScrollView(
+              slivers: [
+                /// #Sliver appBar Carusel
+                SliverAppBar(
+                  automaticallyImplyLeading: false,
+                  expandedHeight: 170.h,
+
+                  /// #CaruselSliver
+                  flexibleSpace: CustomCarouselSlider(
+                    products: state.products,
+                  ),
                 ),
-                Container(
-                  color: Colors.black,
+
+                /// #Category
+                const SliverToBoxAdapter(
+                  child: CustomCategoryList(),
                 ),
-                Container(
-                  color: Colors.yellow,
+
+                /// #SliverChildBuilderDelegate
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    childCount: state.products.length,
+                    (context, index) {
+                      final data = state.products[index];
+                      return CustomSliverList(data: data);
+                    },
+                  ),
                 ),
               ],
-            ),
-          ),
-        ],
+            );
+          } else {
+            return const Center(
+              child: Text(
+                "Check Network",
+                style: TextStyle(fontSize: 30),
+              ),
+            );
+          }
+        },
       ),
     );
   }
 }
-
-List list = [
-  Container(
-    color: Colors.red,
-  ),
-  Container(
-    color: Colors.black,
-  ),
-  Container(
-    color: Colors.yellow,
-  ),
-];

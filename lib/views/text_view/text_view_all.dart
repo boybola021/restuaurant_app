@@ -33,3 +33,29 @@ class CustomTextWidget extends StatelessWidget {
   }
 }
 
+
+class RichTextDetailPage extends StatelessWidget {
+  final String name;
+  final String desc;
+  const RichTextDetailPage({super.key,required this.name,required this.desc});
+
+  @override
+  Widget build(BuildContext context) {
+    return  RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: "$name: ",
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          TextSpan(text: desc,style: const TextStyle(fontSize: 17),),
+        ],
+      ),
+    );
+  }
+}
+
+

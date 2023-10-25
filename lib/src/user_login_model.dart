@@ -1,19 +1,19 @@
-class User{
+class UserSRC{
 
   int id;
   String name;
   String email;
   String password;
 
-  User({
+  UserSRC({
    required this.id,
    required this.name,
    required this.email,
    required this.password,
 });
 
-  factory User.fromJson(Map<String,Object?> json){
-    return User(
+  factory UserSRC.fromJson(Map<String,Object?> json){
+    return UserSRC(
         id: json["id"] as int,
         name: json["name"] as String,
         email: json["email"] as String,
@@ -30,7 +30,7 @@ class User{
 
    @override
   bool operator == (Object other){
-     return (other is User) && other.id == id && other.name == name &&
+     return (other is UserSRC) && other.id == id && other.name == name &&
          other.email == email && other.password == password;
    }
   @override
