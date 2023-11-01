@@ -24,7 +24,7 @@ class ShopPage extends StatelessWidget {
         builder: (context, state) {
           if (state.item.isNotEmpty) {
             return ListView(
-              padding:  EdgeInsets.symmetric(horizontal: 20.w,vertical: 15.h),
+              padding:  EdgeInsets.symmetric(horizontal: 15.w,vertical: 15.h),
               children: [
                 CustomShopPageProducts(item: state.item,),
                 SizedBox(height: 50.h,),

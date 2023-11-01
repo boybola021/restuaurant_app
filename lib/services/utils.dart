@@ -2,7 +2,7 @@ sealed class Utils {
   static bool regexName(String text) => RegExp("^[a-z A-Z]{4,}").hasMatch(text.trim());
 
  static bool regexNameFamily(String text) =>
-      RegExp("^[a-z A-Z]{10,}").hasMatch(text.trim());
+      RegExp("^[a-z A-Z]{3,}").hasMatch(text.trim());
 
   static bool regexPhone(String text) =>
       RegExp(r"^\d{9}$").hasMatch(text.trim());

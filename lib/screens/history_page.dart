@@ -112,12 +112,12 @@ class _HistoryOrderProductPageState extends State<HistoryOrderProductPage> {
         builder: (context, state) {
           if (state is LocalOrderGetState) {
             return ListView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 5.h),
               itemCount: state.item.length,
               itemBuilder: (context, i) {
                 final items = state.item[i];
-                debugPrint(items.quantity.toString());
+
                 return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
                   padding:
                   EdgeInsets.symmetric(horizontal: 15.h, vertical: 5.h),
                   clipBehavior: Clip.antiAlias,
@@ -130,12 +130,12 @@ class _HistoryOrderProductPageState extends State<HistoryOrderProductPage> {
                     children: [
                       Container(
                         width: 90.w,
+                        height: 100.h,
                         alignment: Alignment.center,
                         clipBehavior: Clip.antiAlias,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                         ),
-
                         /// #image
                         child: Image.network(
                           items.products.imageUrl,
@@ -162,7 +162,7 @@ class _HistoryOrderProductPageState extends State<HistoryOrderProductPage> {
                               ),
                               Text(
                                 (items.products.price * items.quantity)
-                                    .toStringAsFixed(2),
+                                    .toStringAsFixed(0),
                                 style: const TextStyle(fontSize: 20),
                               ),
                             ],

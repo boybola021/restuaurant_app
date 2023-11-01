@@ -140,8 +140,7 @@ class _OrderedPageState extends State<OrderedPage> with RestorationMixin {
       KTScaffoldMessage.scaffoldMessage(context, CustomString.fieldEmpty);
       return;
     } if(int.parse(controllerPersonCount.text) > 100 ||
-        int.parse(controllerPersonCount.text) < 0 ||
-        controllerName.text.length < 10 ||
+        controllerName.text.length < 2 ||
        controllerPhone.text.length < 9
     ){
       KTScaffoldMessage.scaffoldMessage(context, CustomString.nameOrPerson);
@@ -226,14 +225,15 @@ class _OrderedPageState extends State<OrderedPage> with RestorationMixin {
                     height: 15.h,
                   ),
 
-                  /// #Person Add
+                  /// #Person Count
                   CustomTextFieldOrderPage(
                     onSubmitted: (text) {
                       if (int.parse(text) > 0 &&
-                          int.parse(text) < 100 &&
+                          int.parse(text) <= 100 &&
                           text.isNotEmpty) {
                         controllerPersonCount.text = text;
                       } else {
+                        print("person count");
                         KTScaffoldMessage.scaffoldMessage(
                             context, CustomString.addNumberPeople);
                         controllerPersonCount.text = '';

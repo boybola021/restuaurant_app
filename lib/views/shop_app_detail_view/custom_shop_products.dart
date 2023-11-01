@@ -53,7 +53,7 @@ class CustomShopPageProducts extends StatelessWidget {
                         ),
                         SizedBox(width: 20.w,),
                         Text(
-                          items.total.toStringAsFixed(2),
+                          items.total.toStringAsFixed(0),
                           style: const TextStyle(fontSize: 20),
                         ),
                       ],

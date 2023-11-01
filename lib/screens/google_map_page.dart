@@ -72,13 +72,6 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColors.pink,
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const BasePages()));
-          },
-          icon:  Icon(Icons.arrow_back,size: 25.sp,),
-        ),
         title:  CustomTextWidget(
           text: CustomString.istanbulRestaurant,
           fontSize: 24.sp,

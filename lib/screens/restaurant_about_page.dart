@@ -54,7 +54,9 @@ class _RestaurantAboutPageState extends State<RestaurantAboutPage> {
       ),
       body: ListView(
         children: [
-          SizedBox(child: Lottie.asset("assets/lottie/Animation - 1698229379599.json")),
+          SizedBox(
+              child: Lottie.asset("assets/lottie/Animation - 1698229379599.json"),
+          ),
           Padding(
             padding:  EdgeInsets.symmetric(horizontal: 20.w),
             child: Row(

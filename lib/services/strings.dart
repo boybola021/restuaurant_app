@@ -59,9 +59,9 @@ abstract class CustomString{
 static const String phone = "91 123 45 67";
 static const String calendar = "Deta";
 static const String time = "Time";
-static const String personAdd = "Person Add";
-static const String nameFamily= "Name and Family";
-static const String addNumberPeople = "Add the number of people,exp: 1 - 50";
+static const String personAdd = "Person Count";
+static const String nameFamily= "Name";
+static const String addNumberPeople = "Add the number of people,exp: 1 - 100";
 static const String addNumberMessage = "You entered the wrong number, please try again. exm: 91 123 45 67";
 static const String forgetPasswordText = "Forgot password ?";
 static const String forgotPasswordAppBar = "Forgot password";
