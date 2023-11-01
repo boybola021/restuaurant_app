@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/packages_all.dart';
-import 'package:restaurant_app/views/button_views/delete_user_button.dart';
-import 'package:restaurant_app/views/button_views/logout_button.dart';
 import 'loading_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,23 +10,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  TextEditingController controller = TextEditingController();
   CarouselController carouselController = CarouselController();
   List<UserSRC> login = [];
-
+  int onTapIndex = 0;
+  String result = "Foods";
   @override
   void initState() {
     super.initState();
-    login = logInRepository.readUser();
-    context.read<AllProductsCubit>().allData();
+    login = localRepository.readUser();
+    context.read<AllProductsCubit>().allData(category: result);
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-    controller.dispose();
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -48,17 +39,17 @@ class _HomePageState extends State<HomePage> {
           children: [
             UserAccountsDrawerHeader(
               accountName: Text(
-                login.first.name ?? "",
+               login.first.name,
                 style: const TextStyle(fontSize: 20),
               ),
-              accountEmail: Text(login.first.email ?? "",
+              accountEmail: Text( login.first.email,
                   style: Theme.of(context).textTheme.titleLarge),
             ),
 
             /// #log out
            const LogOutButton(),
             /// #delate account
-            DeleteUserButton(login: login,),
+            const DeleteUserButton(),
           ],
         ),
       ),
@@ -67,7 +58,7 @@ class _HomePageState extends State<HomePage> {
           if (state is AllProductsInitial) {
             return const LoadingPage();
           }
-          if (state is GetAllProducts && state.products.isNotEmpty) {
+          if (state is GetAllProducts) {
             return CustomScrollView(
               slivers: [
                 /// #Sliver appBar Carusel
@@ -82,10 +73,44 @@ class _HomePageState extends State<HomePage> {
                 ),
 
                 /// #Category
-                const SliverToBoxAdapter(
-                  child: CustomCategoryList(),
+                 SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: SizedBox(
+                      height: 50.h,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.only(left: 15.w, top: 5.h),
+                        itemCount: CategoryEnum.values.length,
+                        itemBuilder: (context, i) {
+                          final data = CategoryEnum.values[i].category;
+                          return GestureDetector(
+                            onTap: () {
+                              onTapIndex = i;
+                              result = CategoryEnum.values[i].category;
+                              context.read<AllProductsCubit>().allData(category: result);
+                            },
+                            child: Container(
+                              height: 40.h,
+                              width: 100.w,
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 3, vertical: 5),
+                              decoration: BoxDecoration(
+                                color: onTapIndex == i
+                                    ? CustomColors.pink
+                                    : Colors.blueGrey,
+                                borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                              ),
+                              child: CustomTextWidget(text: data,fontWeight: FontWeight.w700,fontSize: 18.sp),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
                 ),
-
                 /// #SliverChildBuilderDelegate
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
@@ -101,7 +126,7 @@ class _HomePageState extends State<HomePage> {
           } else {
             return const Center(
               child: Text(
-                "Check Network",
+                "No Data",
                 style: TextStyle(fontSize: 30),
               ),
             );

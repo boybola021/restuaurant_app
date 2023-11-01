@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/packages_all.dart';
 
-class CustomSliverList extends StatefulWidget {
+
+class CustomSliverList extends StatelessWidget {
+
   final MenuModel data;
-  const CustomSliverList({super.key, required this.data});
 
-  @override
-  State<CustomSliverList> createState() => _CustomSliverListState();
-}
+  const CustomSliverList({super.key, required this.data,});
 
-class _CustomSliverListState extends State<CustomSliverList> {
-  bool like = false;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -23,7 +20,7 @@ class _CustomSliverListState extends State<CustomSliverList> {
             context,
             MaterialPageRoute(
               builder: (context) => DetailPage(
-                product: widget.data,
+                product: data,
               ),),);
         },
         leading:
@@ -37,7 +34,7 @@ class _CustomSliverListState extends State<CustomSliverList> {
             ),
           ),
           child: Image.network(
-            widget.data.imageUrl.first,
+            data.imageUrl,
             fit: BoxFit.fill,
             errorBuilder: (context, child,
                 StackTrace? stackTress) {
@@ -45,8 +42,8 @@ class _CustomSliverListState extends State<CustomSliverList> {
             },
           ),
         ),
-        title: Text(widget.data.name),
-        subtitle: Text("${widget.data.price} \$"),
+        title: Text(data.name,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.w600),),
+        subtitle: Text("${data.price} \$",style: TextStyle(fontSize: 17.sp,fontWeight: FontWeight.w600),),
       ),
     );
   }

@@ -10,11 +10,12 @@ part 'all_products_state.dart';
 class AllProductsCubit extends Cubit<AllProductsState> {
   AllProductsCubit() : super(const AllProductsInitial(products: []));
 
-  void allData()async{
-    final data = await RDTBService.getAllMenu();
+  void allData({String? category})async{
     emit(AllProductsLoading(products: state.products));
     try{
-      emit(GetAllProducts(products: [...data]));
+      final data = await RDTBService.getAllMenu();
+      final sortData = data.where((e) => e.category == category).toList();
+      emit(GetAllProducts(products: [...sortData]));
     }catch(e){
       emit(AllProductsFailure(products: state.products,message: "Please check your network"));
     }

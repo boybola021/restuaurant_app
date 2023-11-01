@@ -8,7 +8,7 @@ class CustomCarouselSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return products.isNotEmpty ?SizedBox(
       height: 170.h,
       child: CarouselSlider(
         options: CarouselOptions(
@@ -28,7 +28,7 @@ class CustomCarouselSlider extends StatelessWidget {
           scrollDirection: Axis.horizontal,
         ),
         items: List.generate(
-          3,
+          products.length,
           (index) => Card(
             clipBehavior: Clip.antiAlias,
             elevation: 20,
@@ -39,13 +39,13 @@ class CustomCarouselSlider extends StatelessWidget {
               ),
               child: products[index].imageUrl.isNotEmpty
                   ? Image.network(
-                      products[index].imageUrl.first,
+                      products[index].imageUrl,
                     )
                   : const CircularProgressIndicator.adaptive(),
             ),
           ),
         ),
       ),
-    );
+    ) :  Center(child: Text("This product does not\nhave a picture",textAlign: TextAlign.center,style: TextStyle(fontSize: 25.sp),),);
   }
 }

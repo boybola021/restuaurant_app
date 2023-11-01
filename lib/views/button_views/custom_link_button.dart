@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomLinkButton extends StatelessWidget {
   final List<Widget> widget;
@@ -8,9 +9,9 @@ class CustomLinkButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 30),
-      padding: const EdgeInsets.symmetric(horizontal: 30),
-      height: 55,
+      margin:  EdgeInsets.symmetric(horizontal: 15.h),
+      padding:  EdgeInsets.symmetric(horizontal: 20.h),
+      height: 50.h,
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -18,7 +19,7 @@ class CustomLinkButton extends StatelessWidget {
       ),
       child:  Row(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: widget,
       ),
     );

@@ -19,7 +19,8 @@ class CustomShopPageProducts extends StatelessWidget {
       children: [
         for (var items in item)
           Container(
-            margin:  EdgeInsets.symmetric(horizontal: 20.w,vertical: 5.h),
+            height: 100.h,
+            margin:  EdgeInsets.only(bottom: 10.h),
             padding:  EdgeInsets.symmetric(horizontal: 15.h,vertical: 5.h),
             clipBehavior: Clip.antiAlias,
             alignment: Alignment.center,
@@ -37,7 +38,7 @@ class CustomShopPageProducts extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Image.network(
-                    items.products.imageUrl.first,
+                    items.products.imageUrl,
                     fit: BoxFit.contain,
                   ),
                 ),

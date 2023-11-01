@@ -11,7 +11,6 @@ sealed class CustomIcons{
   static const Icon person =  Icon(Icons.person, size: 30,);
   static const Icon email =  Icon(Icons.email_outlined, size: 30,);
   static const Icon lock =   Icon(CupertinoIcons.lock, size: 30,);
-  static const Icon facebook =  Icon(Icons.facebook, color: Colors.lightBlue, size: 35,);
   static const Icon restaurant = Icon(
     Icons.restaurant_menu,
     color: CustomColors.orange,
@@ -25,7 +24,7 @@ sealed class CustomIcons{
   static final Icon home = Icon(CupertinoIcons.home,size: 25.sp,);
   static final  Icon menu = Icon(Icons.menu_book,size: 25.sp,);
   static final  Icon cart = Icon(Icons.shopping_bag_sharp,size: 25.sp,);
-  static final Icon personAccount =  Icon(Icons.person, size: 25.sp,);
+  static final Icon mapIcon =  Icon(Icons.map, size: 25.sp,);
   static final Icon restaurantAbout = Icon(Icons.restaurant_menu, size: 25.sp);
 
 
@@ -37,4 +36,50 @@ sealed class CustomIcons{
   static  Icon personAdd = Icon(Icons.person_add_alt_1,size: 30.sp,color: CustomColors.pink,);
   static  Icon phone = Icon(Icons.phone,size: 30.sp,color: CustomColors.pink,);
 
+
+  /// restaurant about
+
+  static final facebook = Icon(
+    Icons.facebook_sharp,
+    size: 45.sp,
+    color: Colors.blue,
+  );
+  static final telegram =  Icon(
+    Icons.telegram,
+    size: 45.sp,
+    color: Colors.blue,
+  );
+  static final instagram = Container(
+    height: 35.h,
+    width: 35.w,
+    clipBehavior: Clip.antiAlias,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(5.r)),
+      image: const DecorationImage(
+        fit: BoxFit.fill,
+        image: AssetImage(
+          "assets/icons/instagram_5.webp",
+        ),
+      ),
+    ),
+  );
+  static const delete = Icon(CupertinoIcons.delete);
+  static const phoneNumber =  Icon(
+    Icons.phone_sharp,
+    color: CustomColors.orange,
+  );
+  static const watch = Icon(
+    Icons.watch_later,
+    color: CustomColors.orange,
+  );
+  static const location = Icon(
+    Icons.location_pin,
+    color: CustomColors.orange,
+  );
+  static final cartBadge =  Icon(
+  Icons.shopping_cart_rounded,
+  size: 20.sp,
+  );
+  static const visibility_off = Icon(Icons.visibility_off);
+  static const visibility =  Icon(Icons.visibility);
 }

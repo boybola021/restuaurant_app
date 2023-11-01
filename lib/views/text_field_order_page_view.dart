@@ -12,19 +12,20 @@ class CustomTextFieldOrderPage extends StatelessWidget {
   final void Function(String)? onSubmitted;
   final String hintText;
   final bool readOnly;
-  const CustomTextFieldOrderPage({super.key, required this.controller,this.prefixIcon, this.keyboardType,this.onPressed, this.readOnly = false,required this.hintText, this.onSubmitted});
+  final int? length;
+  const CustomTextFieldOrderPage({super.key, required this.controller,this.prefixIcon, this.keyboardType,this.onPressed, this.readOnly = false,required this.hintText, this.onSubmitted, this.length});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       onSubmitted: onSubmitted,
+      maxLength: length,
       readOnly: readOnly,
       controller: controller,
       onTap: onPressed,
       keyboardType: keyboardType,
       style: const TextStyle(fontSize: 20,),
       decoration:  InputDecoration(
-
         border: const OutlineInputBorder(
         ),
         prefixIcon: prefixIcon,

@@ -1,11 +1,16 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
+import 'package:restaurant_app/domain/models/model.dart';
+import 'package:restaurant_app/domain/models/order_model.dart';
 import 'package:restaurant_app/src/user_login_model.dart';
 import 'local_data_source.dart';
 
 abstract class UserRepository{
   Future<bool> storeUser(UserSRC login);
+  Future<bool> storeHistory(List<OrderModelProduct> history);
+  Future<bool> deleteProduct();
   List<UserSRC> readUser();
-  Future<bool> deleteUser(UserSRC login);
+  Future<bool> deleteUser();
   Future<bool> clareCache();
   Future<bool> editUser(UserSRC login);
 }
@@ -18,9 +23,9 @@ class UserRepositoryImplements implements UserRepository{
   }
 
   @override
-  Future<bool> deleteUser(UserSRC login) {
+  Future<bool> deleteUser() {
     final list = readUser();
-    list.remove(login);
+    list.clear();
     final json = list.map((e) => e.toJson()).toList();
     final data = jsonEncode(json);
     return dataSource.store(StorageLogInKey.login, data);
@@ -31,7 +36,7 @@ class UserRepositoryImplements implements UserRepository{
   List<UserSRC> readUser() {
     String data = dataSource.read(StorageLogInKey.login) ?? "[]";
     final json = jsonDecode(data) as List;
-    return json.map((item) => UserSRC.fromJson(item as Map<String,dynamic>)).toList();
+    return json.map((item) => UserSRC.fromJson(item as Map<String,Object?>)).toList();
   }
 
   @override
@@ -49,6 +54,25 @@ class UserRepositoryImplements implements UserRepository{
     final list = readUser();
     list.removeWhere((element) => element.id == login.id);
     list.add(login);
+    final json = list.map((e) => e.toJson()).toList();
+    final data = jsonEncode(json);
+    return dataSource.store(StorageLogInKey.login, data);
+  }
+
+  @override
+  Future<bool> storeHistory(List<OrderModelProduct>? history)async{
+    final list = readUser();
+    final cart = history ?? [];
+    list.first.history.addAll(cart);
+    final json = list.map((login) => login.toJson()).toList();
+    final data = jsonEncode(json);
+    return  await dataSource.store(StorageLogInKey.login, data);
+  }
+
+  @override
+  Future<bool> deleteProduct()async{
+    final list = readUser();
+    list.first.history.clear();
     final json = list.map((e) => e.toJson()).toList();
     final data = jsonEncode(json);
     return dataSource.store(StorageLogInKey.login, data);

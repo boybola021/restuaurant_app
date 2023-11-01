@@ -8,10 +8,10 @@ export 'package:restaurant_app/services/colors.dart';
 export 'package:restaurant_app/services/icons.dart';
 export 'package:restaurant_app/services/images.dart';
 export 'package:restaurant_app/services/strings.dart';
-export 'package:restaurant_app/views/button_views/cutom_box.dart';
+export 'package:restaurant_app/views/button_views/custom_box.dart';
 export 'package:restaurant_app/views/button_views/skip_button.dart';
 export 'package:restaurant_app/views/text_view/text_view_all.dart';
-export '../views/button_views/cutom_button_next.dart';
+export '../views/button_views/custom_button_next.dart';
 export 'package:cube_transition_plus/cube_transition_plus.dart';
 
 /// #sign up
@@ -39,12 +39,12 @@ export 'package:restaurant_app/cubit/cart_repozitory/all_products_cubit.dart';
 export 'package:restaurant_app/domain/models/model.dart';
 export 'package:restaurant_app/screens/cart_page.dart';
 export 'package:restaurant_app/screens/detail_page.dart';
-export '../views/home_page_detail_view/category_list.dart';
 export '../views/home_page_detail_view/custom_badge.dart';
 export '../views/home_page_detail_view/custom_carusel.dart';
 export '../views/home_page_detail_view/custom_sliver_list.dart';
 export 'package:restaurant_app/services/clip_path_app_bar.dart';
-
+export 'package:restaurant_app/views/button_views/delete_user_button.dart';
+export 'package:restaurant_app/views/button_views/logout_button.dart';
 
 /// #detail poge
 ///
@@ -57,7 +57,6 @@ export 'package:restaurant_app/views/button_views/incremanet_button.dart';
 /// #order page
 
 export 'package:restaurant_app/domain/models/order_model.dart';
-export 'package:restaurant_app/packages_all.dart';
 export 'package:restaurant_app/screens/home_page.dart';
 export '../views/text_field_order_page_view.dart';
 
@@ -70,4 +69,23 @@ export '../views/shop_app_detail_view/custom_shop_products.dart';
 
 export 'package:restaurant_app/cubit/auth/auth_cubit.dart';
 export 'package:restaurant_app/cubit/order_cubit/order_cubit.dart';
-export 'app/app.dart';
+/// #app 
+
+export 'package:restaurant_app/screens/base_page.dart';
+export 'package:restaurant_app/screens/welcome_pages.dart';
+export 'package:restaurant_app/services/firebase_services/auth_service.dart';
+
+/// restaurant about page
+
+export 'package:restaurant_app/views/button_views/social_media_button.dart';
+export 'package:url_launcher/url_launcher.dart';
+
+/// base page
+
+export 'package:restaurant_app/screens/google_map_page.dart';
+export 'package:restaurant_app/screens/restaurant_about_page.dart';
+
+/// google map
+
+export  'package:geolocator/geolocator.dart';
+export  'package:google_maps_flutter/google_maps_flutter.dart';

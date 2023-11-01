@@ -2,8 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/packages_all.dart';
-import 'package:restaurant_app/services/firebase_services/auth_service.dart';
-import 'package:restaurant_app/services/firebase_services/realtime_database_services.dart';
+import 'package:uuid/uuid.dart';
 
 class OrderedPage extends StatefulWidget {
   final List<CartItem> items;
@@ -19,15 +18,15 @@ class _OrderedPageState extends State<OrderedPage> with RestorationMixin {
   final TextEditingController controllerName = TextEditingController();
   final TextEditingController controllerPhone = TextEditingController();
   final TextEditingController controllerDate = TextEditingController();
-  final TextEditingController controllerTime = TextEditingController();
   final TextEditingController controllerPersonCount = TextEditingController();
+  String time = "";
 
   /// #calendar
   @override
   String? get restorationId => widget.restorationId;
 
   final RestorableDateTime _selectedDate =
-      RestorableDateTime(DateTime(2023, 7, 25));
+      RestorableDateTime(DateTime(2023, 11, 1));
   late final RestorableRouteFuture<DateTime?> _restorableDatePickerRouteFuture =
       RestorableRouteFuture<DateTime?>(
     onComplete: (DateTime? newSelectedDate) {
@@ -35,8 +34,9 @@ class _OrderedPageState extends State<OrderedPage> with RestorationMixin {
         setState(
           () {
             _selectedDate.value = newSelectedDate;
-            controllerDate.text =
-                "${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}";
+            debugPrint(_selectedDate.value.toString());
+            controllerDate.text = _selectedDate.value.toString();
+                //"${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}";
           },
         );
       }
@@ -87,12 +87,17 @@ class _OrderedPageState extends State<OrderedPage> with RestorationMixin {
               actions: [
                 TextButton(
                   onPressed: () {
+                    final data = widget.items
+                        .map((e) => OrderModelProduct(
+                            quantity: e.quantity, products: e.products))
+                        .toList();
+                    localCubit.createHistoryOrder(item: data);
+                    cartCubit.allDeleteItems(widget.items);
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const HomePage()),
+                            builder: (context) => const BasePages()),
                         (route) => false);
-                    //cartCubit.allDeleteItems(widget.items);
                   },
                   child: const Text("Ok"),
                 ),
@@ -106,12 +111,17 @@ class _OrderedPageState extends State<OrderedPage> with RestorationMixin {
               actions: [
                 CupertinoDialogAction(
                   onPressed: () {
+                    final data = widget.items
+                        .map((e) => OrderModelProduct(
+                            quantity: e.quantity, products: e.products))
+                        .toList();
+                    localCubit.createHistoryOrder(item: data);
+                    cartCubit.allDeleteItems(widget.items);
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const HomePage()),
-                            (route) => false);
-                    //cartCubit.allDeleteItems(widget.items);
+                            builder: (context) => const BasePages()),
+                        (route) => false);
                   },
                   child: const Text("Ok"),
                 ),
@@ -119,6 +129,40 @@ class _OrderedPageState extends State<OrderedPage> with RestorationMixin {
             );
           }
         });
+  }
+
+  void uploadButton() async {
+    if (controllerName.text.isEmpty ||
+        controllerPhone.text.isEmpty ||
+        controllerPersonCount.text.isEmpty ||
+        controllerDate.text.isEmpty ||
+        time.isEmpty) {
+      KTScaffoldMessage.scaffoldMessage(context, CustomString.fieldEmpty);
+      return;
+    } if(int.parse(controllerPersonCount.text) > 100 ||
+        int.parse(controllerPersonCount.text) < 0 ||
+        controllerName.text.length < 10 ||
+       controllerPhone.text.length < 9
+    ){
+      KTScaffoldMessage.scaffoldMessage(context, CustomString.nameOrPerson);
+    }else {
+      pushAlert(context);
+      final id = const Uuid().v4();
+      final email = AuthService.user?.email;
+      orderedCubit.orderPostProducts(
+        id: id,
+        email: email ?? "",
+        name: controllerName.text.trim(),
+        phone: controllerPhone.text.trim(),
+        personCount: controllerPersonCount.text.trim(),
+        deta: controllerDate.text.trim(),
+        time: time,
+        products: widget.items
+            .map((e) =>
+                OrderModelProduct(quantity: e.quantity, products: e.products))
+            .toList(),
+      );
+    }
   }
 
   @override
@@ -132,97 +176,96 @@ class _OrderedPageState extends State<OrderedPage> with RestorationMixin {
           height: MediaQuery.sizeOf(context).height,
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Spacer(),
-
-              /// #name
-              CustomTextFieldOrderPage(
-                controller: controllerName,
-                onSubmitted: (String text) {
-                  if (Utils.regexNameFamily(text)) {
-                    controllerName.text = text.trim();
-                  } else {
-                    KTScaffoldMessage.scaffoldMessage(context, CustomString.nameMessage);
-                    controllerName.text = "";
-                  }
-                },
-                hintText: CustomString.nameFamily,
-                prefixIcon: CustomIcons.personOrder,
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
-
-              /// #phone number
-              CustomTextFieldOrderPage(
-                controller: controllerPhone,
-                onSubmitted: (text) {
-                  if (Utils.regexPhone(text)) {
-                    controllerPhone.text = text;
-                  } else {
-                    KTScaffoldMessage.scaffoldMessage(context, CustomString.addNumberMessage);
-                    controllerPhone.text = "";
-                  }
-                },
-                hintText: CustomString.phone,
-                keyboardType: TextInputType.phone,
-                prefixIcon: CustomIcons.phone,
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
-
-              /// #Person Add
-              CustomTextFieldOrderPage(
-                onSubmitted: (text) {
-                  if (int.parse(text) > 0 && int.parse(text) < 51 && text.isNotEmpty) {
-                    controllerPersonCount.text = text;
-                  } else {
-                     KTScaffoldMessage.scaffoldMessage(context, CustomString.addNumberPeople);
-                    controllerPersonCount.text = '';
-                  }
-                },
-                controller: controllerPersonCount,
-                keyboardType: TextInputType.number,
-                hintText: CustomString.personAdd,
-                prefixIcon: CustomIcons.personAdd,
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: BlocBuilder<OrderCubit, OrderState>(
+        builder: (context, state) {
+          return SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  /// #Date
+                  const Spacer(),
+                  /// #name
+                  CustomTextFieldOrderPage(
+                    controller: controllerName,
+                    onSubmitted: (String text) {
+                      if (Utils.regexNameFamily(text)) {
+                        controllerName.text = text.trim();
+                      } else {
+                        KTScaffoldMessage.scaffoldMessage(
+                            context, CustomString.nameMessage);
+                        controllerName.text = "";
+                      }
+                    },
+                    hintText: CustomString.nameFamily,
+                    prefixIcon: CustomIcons.personOrder,
+                  ),
                   SizedBox(
-                    width: 150.w,
-                    child: CustomTextFieldOrderPage(
-                        controller: controllerDate,
-                        readOnly: true,
-                        keyboardType: TextInputType.number,
-                        onPressed: () {
-                          _restorableDatePickerRouteFuture.present();
-                        },
-                        hintText: CustomString.calendar,
-                        prefixIcon: CustomIcons.calendar),
+                    height: 15.h,
                   ),
 
-                  /// #Time
+                  /// #phone number
+                  CustomTextFieldOrderPage(
+                    controller: controllerPhone,
+                    length: 9,
+                    onSubmitted: (text) {
+                      if (Utils.regexPhone(text)) {
+                        controllerPhone.text = text;
+                      } else {
+                        KTScaffoldMessage.scaffoldMessage(
+                            context, CustomString.addNumberMessage);
+                        controllerPhone.text = "";
+                      }
+                    },
+                    hintText: CustomString.phone,
+                    keyboardType: TextInputType.phone,
+                    prefixIcon: CustomIcons.phone,
+                  ),
                   SizedBox(
-                    width: 150.w,
-                    child: CustomTextFieldOrderPage(
-                      controller: controllerTime,
-                      readOnly: true,
-                      keyboardType: TextInputType.number,
-                      hintText: CustomString.time,
-                      prefixIcon: PopupMenuButton<Widget>(
-                        icon: CustomIcons.time,
+                    height: 15.h,
+                  ),
+
+                  /// #Person Add
+                  CustomTextFieldOrderPage(
+                    onSubmitted: (text) {
+                      if (int.parse(text) > 0 &&
+                          int.parse(text) < 100 &&
+                          text.isNotEmpty) {
+                        controllerPersonCount.text = text;
+                      } else {
+                        KTScaffoldMessage.scaffoldMessage(
+                            context, CustomString.addNumberPeople);
+                        controllerPersonCount.text = '';
+                      }
+                    },
+                    controller: controllerPersonCount,
+                    keyboardType: TextInputType.number,
+                    hintText: CustomString.personAdd,
+                    prefixIcon: CustomIcons.personAdd,
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      /// #Date
+                      SizedBox(
+                        width: 150.w,
+                        child: CustomTextFieldOrderPage(
+                            controller: controllerDate,
+                            readOnly: true,
+                            keyboardType: TextInputType.number,
+                            onPressed: () {
+                              _restorableDatePickerRouteFuture.present();
+                            },
+                            hintText: CustomString.calendar,
+                            prefixIcon: CustomIcons.calendar),
+                      ),
+
+                      /// #Time
+                      PopupMenuButton<Widget>(
                         itemBuilder: (context) {
                           return [
                             for (int i = 0;
@@ -236,75 +279,69 @@ class _OrderedPageState extends State<OrderedPage> with RestorationMixin {
                                       fontSize: 30),
                                 ),
                                 onTap: () {
-                                  controllerTime.text =
-                                      CustomString.timeList[i];
+                                  time = CustomString.timeList[i];
+                                  setState(() {});
                                 },
                               ),
                           ];
                         },
+                        child: Container(
+                          height: 55.h,
+                          width: 150.w,
+                          padding: EdgeInsets.symmetric(horizontal: 5.w),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            color: const Color.fromRGBO(80, 76, 85, 1),
+                          ),
+                          child: Row(
+                            children: [
+                              CustomIcons.time,
+                              SizedBox(
+                                width: 5.w,
+                              ),
+                              Text(
+                                CustomString.time.isNotEmpty ? time
+                                    :CustomString.time,
+                                style: TextStyle(fontSize: 20.sp),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                    ),
+                    child: ElevatedButton(
+                      onPressed: uploadButton,
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: Size(
+                          MediaQuery.sizeOf(context).width,
+                          45.h,
+                        ),
+                        backgroundColor: CustomColors.pink,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.r),
+                        ),
+                        alignment: Alignment.center,
+                      ),
+                      child: Text(
+                        CustomString.next,
+                        style: TextStyle(color: Colors.white, fontSize: 17.sp),
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
                 ],
               ),
-              const Spacer(),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20.w,
-                ),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    pushAlert(context);
-                    final email = AuthService.user.email;
-                    final data = widget.items.map((e) => OrderModelProduct(quantity: e.quantity, products: e.products)).toList();
-                    print(data);
-                    final check =  await RDTBService.orderAdd(
-                        OrderModel(
-                              name: controllerName.text.trim(),
-                              email: email ?? "",
-                              phone: "+998${controllerPhone.text.trim()}",
-                              personCount: int.parse(controllerPersonCount.text.trim()),
-                              deta: controllerDate.text.trim(),
-                              time: controllerTime.text.trim(),
-                              products: widget.items.map((e) => OrderModelProduct(quantity: e.quantity, products: e.products)).toList(),
-                            ),
-                     );
-                    // orderedCubit.orderPostProducts(
-                    //   id: 1,
-                    //   order: OrderModel(
-                    //     name: controllerName.text.trim(),
-                    //     email: email ?? "",
-                    //     phone: "+998${controllerPhone.text.trim()}",
-                    //     personCount: int.parse(controllerPersonCount.text.trim()),
-                    //     deta: controllerDate.text.trim(),
-                    //     time: controllerTime.text.trim(),
-                    //     items: widget.items.map((item) => OrderMenuModel(quantity: item.quantity, menu: item.products)).toList(),
-                    //   ),
-                   // );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: Size(
-                      MediaQuery.sizeOf(context).width,
-                      45.h,
-                    ),
-                    backgroundColor: CustomColors.pink,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.r),
-                    ),
-                    alignment: Alignment.center,
-                  ),
-                  child: Text(
-                    CustomString.next,
-                    style: TextStyle(color: Colors.white, fontSize: 17.sp),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

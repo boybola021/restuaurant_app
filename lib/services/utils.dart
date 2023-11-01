@@ -7,7 +7,7 @@ sealed class Utils {
   static bool regexPhone(String text) =>
       RegExp(r"^\d{9}$").hasMatch(text.trim());
 
-  static bool regexEmail(String email) =>  RegExp(r"[a-z A-Z 0-9]{3,}@gmail.com$").hasMatch(email.trim());
+  static bool regexEmail(String email) =>  RegExp(r"[a-z A-Z 0-9]{4,}@gmail.com$").hasMatch(email.trim());
 
   static bool regexPassword(String password) => RegExp(r"[a-z A-Z 0-9]{6,}").hasMatch(password.trim());
 
@@ -17,7 +17,7 @@ sealed class Utils {
 
     if (
         RegExp(r"^[a-z A-Z]{4,}").hasMatch(username.trim()) &&
-        RegExp(r"[a-z A-Z 0-9]{3,}@gmail.com$").hasMatch(email.trim()) &&
+        RegExp(r"[a-z A-Z 0-9]{4,}@gmail\.com$").hasMatch(email.trim()) &&
         RegExp(r"[a-z A-Z 0-9]{6,}").hasMatch(password.trim()) &&
         password.trim() == prePassword.trim()
     ) {

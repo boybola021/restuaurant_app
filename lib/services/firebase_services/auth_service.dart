@@ -53,7 +53,18 @@ sealed class AuthService {
     }
   }
 
-  static User get user => auth.currentUser!;
+
+  static Future<bool> forgetPassword(String email)async{
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+      return true;
+    } catch(e) {
+      debugPrint("ERROR forgetPassword => : $e");
+      return false;
+    }
+  }
+
+  static User? get user => auth.currentUser;
 
 }
 

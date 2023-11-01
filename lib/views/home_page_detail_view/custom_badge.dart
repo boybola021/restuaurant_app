@@ -32,10 +32,7 @@ class CustomBadgeView extends StatelessWidget {
               MaterialPageRoute(
                 builder: (context) => const ShopPage(),),);
           },
-          icon: const Icon(
-            Icons.shopping_cart_rounded,
-            size: 20,
-          ),
+          icon: CustomIcons.cartBadge,
         ),
       ),
     );

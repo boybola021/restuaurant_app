@@ -2,11 +2,12 @@
 
 abstract class CustomString{
 
-  static const String firstText = "Dining and Delivery Restaurant App";
+  static const String firstText = "Dining and Delivery\nRestaurant App";
   static const String selectionFoodsText = "Diverse selection of foods!";
   static const String skip = "skip";
   static const String next = "Next";
-  static const String marvarid = "Marvarid";
+  static const String istanbul = "ISTANBUL";
+  static const String istanbulRestaurant = "Istanbul Restaurant";
 
   static const String ourRestaurant = "Our restaurant serves a wide variety of cuisines";
   static const String seatSelection = "Use the app reserve your favourite seat";
@@ -24,6 +25,7 @@ abstract class CustomString{
   static const String notLogin = "No login or password available, try again";
   static const String emailMessage = "You entered the email incorrectly, try again";
   static const String somethingError = "Something error, try again later";
+  static const String accountServerError = "This account exists on the server";
   static const String invalidValueEmail = "Invalid email";
   static const String invalidValuePass = "Invalid password";
   static const String password = "Password";
@@ -43,8 +45,9 @@ abstract class CustomString{
 
  static const String home = "Home";
  static const String about = "About";
- static const String person = "Person";
+ static const String map = "Map";
  static const String cart = "Cart";
+ static const String history = "History";
 
  /// Detail page Strings
  static const String desc = "Description";
@@ -60,7 +63,10 @@ static const String personAdd = "Person Add";
 static const String nameFamily= "Name and Family";
 static const String addNumberPeople = "Add the number of people,exp: 1 - 50";
 static const String addNumberMessage = "You entered the wrong number, please try again. exm: 91 123 45 67";
-
+static const String forgetPasswordText = "Forgot password ?";
+static const String forgotPasswordAppBar = "Forgot password";
+static const String fieldEmpty = "Sorry, some fields are empty, please fill them";
+static const String nameOrPerson = "Sorry, there was an error entering your name or number of people,exp: name: Maxmudov Ibroxim, person add 1 - 100";
 static const List<String> timeList = [
   "09:00",
   "10:00",
@@ -77,6 +83,23 @@ static const List<String> timeList = [
   "21:00",
   "22:00",
   "23:00",
+  "00:00",
 ];
+  static const String location = "Toshkent, Mirobod koʻchasi, 35";
+  static const String allDaysOfWeek = "09:00 - 23:00, All days of week";
+  static const String phoneNumber = "+998 71 252 67 67";
+  static const String instagramUrl = "https://www.instagram.com/istanbul_restaurant_tashkent/";
+  static const String facebookUrl = "https://www.facebook.com/people/istanbul_restaurant_tashkent/100054338868679/";
+  static const String telegramUrl = "https://t.me/istanbul_restaurant_tashkent";
+  static const String mapUrl = "https://www.google.com/maps/place/%22Istanbul%22+Turkish+Restaurant/@41.3401496,69.0929724,10.64z/data=!4m6!3m5!1s0x38ae8ac4990137ef:0xeedc112d020fe667!8m2!3d41.2941167!4d69.2705623!16s%2Fg%2F11hbt_9q2k?entry=ttu";
+}
 
+enum CategoryEnum{
+  food("Foods"),
+  salad("Salad"),
+  dessert("Dessert"),
+  fruits("Fruits"),
+  drink("Drink");
+ const CategoryEnum(this.category);
+ final String category;
 }

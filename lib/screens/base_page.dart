@@ -1,7 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/packages_all.dart';
+import 'history_page.dart';
 
 class BasePages extends StatefulWidget {
   const BasePages({super.key});
@@ -16,8 +15,9 @@ class _BasePagesState extends State<BasePages> {
   List<Widget> pages = const [
     HomePage(),
     ShopPage(),
-    UserPage(),
-    MapPage(),
+    RestaurantAboutPage(),
+    GoogleMapPage(),
+    HistoryOrderProductPage(),
   ];
   @override
   void initState() {
@@ -41,13 +41,15 @@ class _BasePagesState extends State<BasePages> {
         items: [
           BottomNavigationBarItem(
               icon: CustomIcons.home, label: CustomString.home),
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart), label: CustomString.cart),
           BottomNavigationBarItem(
-              icon: CustomIcons.cart, label: CustomString.cart),
+              icon: CustomIcons.restaurantAbout,
+              label: CustomString.about),
           BottomNavigationBarItem(
-              icon: CustomIcons.personAccount,
-              label: CustomString.person),
-          BottomNavigationBarItem(
-              icon: CustomIcons.restaurantAbout, label: CustomString.about),
+              icon: CustomIcons.mapIcon, label: CustomString.map),
+           BottomNavigationBarItem(
+              icon: CustomIcons.cart, label: CustomString.history),
         ],
       ),
       body: PageView(
@@ -59,26 +61,3 @@ class _BasePagesState extends State<BasePages> {
   }
 }
 
-class UserPage extends StatelessWidget {
-  const UserPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
-
-class MapPage extends StatefulWidget {
-  const MapPage({super.key});
-
-  @override
-  State<MapPage> createState() => _MapPageState();
-}
-
-class _MapPageState extends State<MapPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
-  }
-}

@@ -33,35 +33,7 @@ class _FirstPageState extends State<FirstPage> {
             fit: BoxFit.fitHeight,
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CustomTextWidget(
-                    text: "C R A",
-                    fontWeight: FontWeight.w600,
-                    fontSize: 50.sp),
-                CustomIcons.restaurant,
-                CustomTextWidget(
-                  text: "E",
-                  fontWeight: FontWeight.w600,
-                  fontSize: 50.sp,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 35.h,
-            ),
-            CustomTextWidget(
-              text: CustomString.firstText,
-              positionText: TextAlign.center,
-              fontSize: 30.sp,
-              fontWeight: FontWeight.w700,
-            ),
-          ],
-        ),
+        child: Image.asset("assets/icons/istanbul-restaurant-logo_1.png",color: Colors.white,),
       ),
     );
   }
@@ -118,84 +90,85 @@ class TwoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final y = MediaQuery.sizeOf(context).height;
-    final x = MediaQuery.sizeOf(context).width;
     return Scaffold(
-      body: Center(
-        child: SafeArea(
-          child: SizedBox(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Column(
-                children: [
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [SkipButton()],
-                  ),
-                  SizedBox(
-                    height: y / 20,
-                  ),
-                  CustomTextWidget(
-                    text: CustomString.selectionFoodsText,
-                    positionText: TextAlign.center,
-                    fontSize: 30.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  const Spacer(),
-                  Center(
-                    child: Container(
-                      height: 250.h,
-                      width: 250.w,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: CustomImages.foodImg2,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  CustomTextWidget(
-                      text: CustomString.ourRestaurant,
-                      positionText: TextAlign.center,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 22.sp),
-                  SizedBox(
-                    height: y / 30,
-                  ),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomBox(
-                        width: 20,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      CustomBox(
-                        width: 10,
-                        color: CustomColors.grey,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      CustomBox(
-                        width: 10,
-                        color: CustomColors.grey,
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                ],
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        actions: const [
+          SkipButton(),
+          SizedBox(width: 10,),
+        ],
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: CustomTextWidget(
+                text: CustomString.selectionFoodsText,
+                positionText: TextAlign.center,
+                fontSize: 30.sp,
+                fontWeight: FontWeight.w600,
               ),
             ),
-          ),
+            const Spacer(),
+            Center(
+              child: Container(
+                height: 250.h,
+                width: 250.w,
+                clipBehavior: Clip.antiAlias,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: CustomImages.foodImg2,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            const Spacer(),
+            CustomTextWidget(
+                text: CustomString.ourRestaurant,
+                positionText: TextAlign.center,
+                fontWeight: FontWeight.w500,
+                fontSize: 22.sp),
+            SizedBox(
+              height: y / 30,
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomBox(
+                  width: 20,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                CustomBox(
+                  width: 10,
+                  color: CustomColors.grey,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                CustomBox(
+                  width: 10,
+                  color: CustomColors.grey,
+                ),
+              ],
+            ),
+            const Spacer(),
+
+          ],
         ),
       ),
     );
   }
 }
+
+
 
 class ThreePage extends StatelessWidget {
   const ThreePage({Key? key}) : super(key: key);
@@ -204,28 +177,30 @@ class ThreePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final y = MediaQuery.sizeOf(context).height;
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        actions: const [
+          SkipButton(),
+          SizedBox(width: 10,),
+        ],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Column(
+          child: ListView(
             children: [
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [SkipButton()],
-              ),
-              SizedBox(
-                height: y / 20,
-              ),
               CustomTextWidget(
                   text: CustomString.seatSelection,
                   positionText: TextAlign.center,
-                  fontSize: 32,
+                  fontSize: 28.sp,
                   fontWeight: FontWeight.w600),
-              const Spacer(),
               Center(
                 child: Container(
-                  height: y / 2.5,
+                  height: y / 2.3.h,
                   clipBehavior: Clip.antiAlias,
+                  margin: EdgeInsets.symmetric(vertical: 20.h),
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
@@ -235,16 +210,13 @@ class ThreePage extends StatelessWidget {
                   ),
                 ),
               ),
-              const Spacer(),
               CustomTextWidget(
                 text: CustomString.appUseSelectRestaurant,
                 positionText: TextAlign.center,
                 fontWeight: FontWeight.w500,
-                fontSize: 22,
+                fontSize: 22.sp,
               ),
-              SizedBox(
-                height: y / 30,
-              ),
+              SizedBox(height: 20.h,),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -267,7 +239,6 @@ class ThreePage extends StatelessWidget {
                   ),
                 ],
               ),
-              const Spacer(),
             ],
           ),
         ),
@@ -282,90 +253,76 @@ class FourPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final y = MediaQuery.sizeOf(context).height;
-    final x = MediaQuery.sizeOf(context).width;
     return Scaffold(
       body: SafeArea(
-        child: SizedBox(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Column(
-              children: [
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [SkipButton()],
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                CustomTextWidget(
-                  text: CustomString.homeDelivery,
-                  positionText: TextAlign.center,
-                  fontSize: 30,
-                  fontWeight: FontWeight.w600,
-                ),
-                const Spacer(),
-                Center(
-                  child: Container(
-                    height: 250.h,
-                    width: 250.w,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: CustomImages.deliveryImg,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+          children: [
+            SizedBox(height: y / 10,),
+            CustomTextWidget(
+              text: CustomString.homeDelivery,
+              positionText: TextAlign.center,
+              fontSize: 28.sp,
+              fontWeight: FontWeight.w600,
+            ),
+            SizedBox(height: y / 15,),
+            Center(
+              child: Container(
+                height: 250.h,
+                width: 250.w,
+                clipBehavior: Clip.antiAlias,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: CustomImages.deliveryImg,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                const Spacer(),
-                CustomTextWidget(
-                  text: CustomString.contactFree,
-                  positionText: TextAlign.center,
-                  fontSize: 30,
-                  fontWeight: FontWeight.w600,
+              ),
+            ),
+            SizedBox(height: y / 15,),
+            CustomTextWidget(
+              text: CustomString.contactFree,
+              positionText: TextAlign.center,
+              fontSize: 25.sp,
+              fontWeight: FontWeight.w600,
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomBox(
+                  width: 10,
+                  color: CustomColors.grey,
                 ),
                 SizedBox(
-                  height: 20.h,
+                  width: 5,
                 ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomBox(
-                      width: 10,
-                      color: CustomColors.grey,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    CustomBox(
-                      width: 10,
-                      color: CustomColors.grey,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    CustomBox(
-                      width: 20,
-                    ),
-                  ],
+                CustomBox(
+                  width: 10,
+                  color: CustomColors.grey,
                 ),
                 SizedBox(
-                  height: y / 25,
+                  width: 5,
                 ),
-                CustomButton(
-                  page: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SignInScreen()));
-                  },
-                  text: CustomString.next,
+                CustomBox(
+                  width: 20,
                 ),
-                const Spacer(),
               ],
             ),
-          ),
+            SizedBox(
+              height: y / 25,
+            ),
+            CustomButton(
+              page: () {
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const SignInScreen()), (route) => false);
+              },
+              text: CustomString.next,
+            ),
+            SizedBox(height: y / 20),
+          ],
         ),
       ),
     );

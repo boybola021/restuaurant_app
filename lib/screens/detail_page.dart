@@ -35,7 +35,7 @@ class DetailPage extends StatelessWidget {
           product.imageUrl.isNotEmpty ?
           SizedBox(
             height: 210.h,
-            child: CustomFoodImagesView(product: product, controller: controller),
+            child: Image.network(product.imageUrl,fit: BoxFit.contain,),
           ):
          const Center(child: CircularProgressIndicator.adaptive(),),
           Padding(

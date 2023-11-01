@@ -1,24 +1,79 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/packages_all.dart';
-import 'package:restaurant_app/services/firebase_services/auth_service.dart';
 
 class DeleteUserButton extends StatelessWidget {
-  final List login;
-  const DeleteUserButton({super.key, required this.login});
+  const DeleteUserButton({super.key,});
 
-
-  void deleteAccount(context) async {
-    final deleteAccount = await AuthService.deleteAccount();
-    if (deleteAccount) {
-      logInRepository.deleteUser(login.first);
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const SignUpScreen(),
-        ),
-      );
-    } else {
-      KTScaffoldMessage.scaffoldMessage(context, CustomString.somethingError);
-    }
+  Future<void>deleteAccount(context)async{
+    return showDialog(
+        context: context,
+        builder: (BuildContext context){
+          if(Platform.isAndroid){
+            /// addroid uchun
+            return AlertDialog(
+              title: const Text("Attention"),
+              content: const Text("Do you really want to delete account"),
+              actions: [
+                TextButton(
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                  child: const Text("No"),
+                ),
+                TextButton(
+                  onPressed: ()async{
+                    final deleteAccount = await AuthService.deleteAccount();
+                    if (deleteAccount) {
+                      localRepository.deleteUser();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => const SignUpScreen(),
+                          ),
+                              (route) => false);
+                    } else {
+                      KTScaffoldMessage.scaffoldMessage(context, CustomString.somethingError);
+                    }
+                  },
+                  child: const Text("Yes"),
+                ),
+              ],
+            );
+          }else {
+            /// iPone uchuun dialog
+            return CupertinoAlertDialog(
+              title: const Text("Attention"),
+              content: const Text("Do you really want to delete account"),
+              actions: [
+                CupertinoDialogAction(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("No"),
+                ),
+                CupertinoDialogAction(
+                  onPressed: ()async{
+                    final deleteAccount = await AuthService.deleteAccount();
+                    if (deleteAccount) {
+                      localRepository.deleteUser();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => const SignInScreen(),
+                          ),
+                              (route) => false);
+                    } else {
+                      KTScaffoldMessage.scaffoldMessage(context, CustomString.somethingError);
+                    }
+                  },
+                  child: const Text("Yes"),
+                ),
+              ],
+            );
+          }
+        }
+    );
   }
 
   @override

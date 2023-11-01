@@ -11,51 +11,48 @@ class ShopPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          "Ordered",
-          style: TextStyle(fontSize: 20),
+      appBar: PreferredSize(
+        preferredSize: Size(double.infinity, 50.h),
+        child: CustomAppBar(
+          text: "Cart Page",
+          fontSize: 25,
+          height: MediaQuery.sizeOf(context).height,
         ),
       ),
       body: BlocBuilder<CartController, CartState>(
         bloc: cartCubit,
         builder: (context, state) {
-          if(state.total == state.total){}
           if (state.item.isNotEmpty) {
-            return Column(
+            return ListView(
+              padding:  EdgeInsets.symmetric(horizontal: 20.w,vertical: 15.h),
               children: [
                 CustomShopPageProducts(item: state.item,),
-                Text("${state.total}",style: const TextStyle(fontSize: 23),),
-                const Spacer(),
-                Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 20.w,vertical: 10.h),
-                  child: ElevatedButton(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) =>  OrderedPage(items: [...state.item],)));
-                    },
-                    style: ElevatedButton.styleFrom(
-                      fixedSize: Size(
+                SizedBox(height: 50.h,),
+                ElevatedButton(
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  OrderedPage(items: [...state.item],)));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: Size(
                         MediaQuery.sizeOf(context).width,
-                      45.h),
-                      backgroundColor: CustomColors.pink,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.r),
-                      ),
-                      alignment: Alignment.center,
+                        45.h),
+                    backgroundColor: CustomColors.pink,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.r),
                     ),
-                    child:  Text("Next",style: TextStyle(color: Colors.white,fontSize:17.sp),),
+                    alignment: Alignment.center,
                   ),
+                  child:  Text("Next",style: TextStyle(color: Colors.white,fontSize:17.sp),),
                 ),
+                SizedBox(height: 20.h),
               ],
             );
           }
           else {
-            return const Center(
-              child: Text(
-                "Cart empty",
-                style: TextStyle(fontSize: 30),
-              ),
+            return  Container(
+              alignment: Alignment.center,
+              color: Colors.black87,
+              child: Image.asset("assets/images/dribble_cart.gif",fit: BoxFit.cover,),
             );
           }
         },

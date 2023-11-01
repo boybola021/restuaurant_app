@@ -1,26 +1,82 @@
-
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/packages_all.dart';
-import 'package:restaurant_app/services/firebase_services/auth_service.dart';
 
 class LogOutButton extends StatelessWidget {
   const LogOutButton({super.key});
 
-  void logout(context) async {
-    final signOut = await AuthService.signOut();
-    if (signOut) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => SignInScreen(),
-        ),
-      );
-    } else {
-      KTScaffoldMessage.scaffoldMessage(context, CustomString.somethingError);
-    }
+  Future<void> logout(context) async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          if (Platform.isAndroid) {
+            /// addroid uchun
+            return AlertDialog(
+              title: const Text("Attention"),
+              content: const Text("Do you really want to sign out"),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("No"),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    final signOut = await AuthService.signOut();
+                    if (signOut) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => const SignInScreen(),
+                          ),
+                          (route) => false);
+                    } else {
+                      KTScaffoldMessage.scaffoldMessage(
+                          context, CustomString.somethingError);
+                    }
+                  },
+                  child: const Text("Yes"),
+                ),
+              ],
+            );
+          } else {
+            /// iPone uchuun dialog
+            return CupertinoAlertDialog(
+              title: const Text("Attention"),
+              content: const Text("Do you really want to sign out"),
+              actions: [
+                CupertinoDialogAction(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("No"),
+                ),
+                CupertinoDialogAction(
+                  onPressed: () async {
+                    final signOut = await AuthService.signOut();
+                    if (signOut) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => const SignInScreen(),
+                          ),
+                              (route) => false);
+                    } else {
+                      KTScaffoldMessage.scaffoldMessage(
+                          context, CustomString.somethingError);
+                    }
+                  },
+                  child: const Text("Yes"),
+                ),
+              ],
+            );
+          }
+        });
   }
+
   @override
   Widget build(BuildContext context) {
-    return   Container(
+    return Container(
       height: 40.h,
       width: double.infinity,
       alignment: Alignment.centerLeft,
