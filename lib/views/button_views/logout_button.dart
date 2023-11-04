@@ -28,7 +28,7 @@ class LogOutButton extends StatelessWidget {
                     if (signOut) {
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                            builder: (context) => const SignInScreen(),
+                            builder: (context) =>  SignInScreen(),
                           ),
                           (route) => false);
                     } else {
@@ -58,7 +58,7 @@ class LogOutButton extends StatelessWidget {
                     if (signOut) {
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                            builder: (context) => const SignInScreen(),
+                            builder: (context) =>  SignInScreen(),
                           ),
                               (route) => false);
                     } else {

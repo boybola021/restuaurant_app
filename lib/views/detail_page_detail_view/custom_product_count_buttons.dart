@@ -28,6 +28,7 @@ class CustomProductButtonDetailPage extends StatelessWidget {
                 icon: const Icon(
                   Icons.remove,
                   size: 20,
+                  color: Colors.white,
                 ),
               ),
               Text(
@@ -42,11 +43,13 @@ class CustomProductButtonDetailPage extends StatelessWidget {
                 icon: const Icon(
                   Icons.add,
                   size: 20,
+                  color: Colors.white,
                 ),
               )
             ],
           ),
-          AddToCartButton(pressed: () {
+          AddToCartButton(
+              pressed: () {
             if (count > 0) {
               Navigator.pop(context);
               count = 0;

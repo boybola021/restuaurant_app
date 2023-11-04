@@ -21,13 +21,17 @@ abstract class CustomString{
   static const String name = "Name";
   static const String passwordMessage = "You entered the password incorrectly, try again";
   static const String confirmMessage = "You entered the confirm incorrectly, try again";
-  static const String nameMessage = "You entered the name incorrectly, try again";
+  static const String nameMessage = "You entered the name incorrectly, try again,exp: Tursunxon";
   static const String notLogin = "No login or password available, try again";
-  static const String emailMessage = "You entered the email incorrectly, try again";
+  static const String emailMessage = "You entered the email incorrectly, try again exp: bekzod@gmail.com";
   static const String somethingError = "Something error, try again later";
   static const String accountServerError = "This account exists on the server";
+
   static const String invalidValueEmail = "Invalid email";
   static const String invalidValuePass = "Invalid password";
+  static const String invalidValueName = "Invalid name";
+  static const String invalidValuePrePass = "Invalid confirm password";
+
   static const String password = "Password";
   static const String prePassword = "Confirm password";
   static const String getStarted = "Get started";
@@ -98,7 +102,6 @@ enum CategoryEnum{
   food("Foods"),
   salad("Salad"),
   dessert("Dessert"),
-  fruits("Fruits"),
   drink("Drink");
  const CategoryEnum(this.category);
  final String category;

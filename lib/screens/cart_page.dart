@@ -51,7 +51,7 @@ class ShopPage extends StatelessWidget {
           else {
             return  Container(
               alignment: Alignment.center,
-              color: Colors.black87,
+              color: const Color.fromRGBO(13,12,15, 1),
               child: Image.asset("assets/images/dribble_cart.gif",fit: BoxFit.cover,),
             );
           }

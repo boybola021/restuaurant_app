@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/packages_all.dart';
 
@@ -18,7 +19,7 @@ class DetailPage extends StatelessWidget {
         preferredSize: Size(double.infinity, 50.h),
         child: CustomAppBar(
           text: product.name,
-          fontSize: 25,
+          fontSize: 28.sp,
           height: MediaQuery.sizeOf(context).height,
         ),
       ),
@@ -35,7 +36,13 @@ class DetailPage extends StatelessWidget {
           product.imageUrl.isNotEmpty ?
           SizedBox(
             height: 210.h,
-            child: Image.network(product.imageUrl,fit: BoxFit.contain,),
+            child:  CachedNetworkImage(
+              imageUrl: product.imageUrl,
+              placeholder: (context,url) => const ColoredBox(
+                color: Colors.transparent,
+              ),
+              errorWidget: (context,url,error) => const Icon(Icons.error),
+            ),
           ):
          const Center(child: CircularProgressIndicator.adaptive(),),
           Padding(

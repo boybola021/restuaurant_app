@@ -39,30 +39,9 @@ sealed class CustomIcons{
 
   /// restaurant about
 
-  static final facebook = Icon(
-    Icons.facebook_sharp,
-    size: 45.sp,
-    color: Colors.blue,
-  );
-  static final telegram =  Icon(
-    Icons.telegram,
-    size: 45.sp,
-    color: Colors.blue,
-  );
-  static final instagram = Container(
-    height: 35.h,
-    width: 35.w,
-    clipBehavior: Clip.antiAlias,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(5.r)),
-      image: const DecorationImage(
-        fit: BoxFit.fill,
-        image: AssetImage(
-          "assets/icons/instagram_5.webp",
-        ),
-      ),
-    ),
-  );
+  static final facebook = Image.asset("assets/icons/facebook.png",height: 45.h,width: 45.w,);
+  static final telegram =  Image.asset("assets/icons/telegram.png",height: 45.h,width: 45.w,);
+  static final instagram = Image.asset("assets/icons/instagram.png",height: 45.h,width: 45.w,);
   static const delete = Icon(CupertinoIcons.delete);
   static const phoneNumber =  Icon(
     Icons.phone_sharp,

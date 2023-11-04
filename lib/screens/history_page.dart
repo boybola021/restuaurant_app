@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/cubit/local_src/local_cubit.dart';
@@ -116,10 +117,9 @@ class _HistoryOrderProductPageState extends State<HistoryOrderProductPage> {
               itemCount: state.item.length,
               itemBuilder: (context, i) {
                 final items = state.item[i];
-
                 return Container(
-                  padding:
-                  EdgeInsets.symmetric(horizontal: 15.h, vertical: 5.h),
+                  padding: EdgeInsets.symmetric(horizontal: 15.h, vertical: 5.h),
+                  margin: EdgeInsets.symmetric(vertical: 5.h),
                   clipBehavior: Clip.antiAlias,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
@@ -137,9 +137,12 @@ class _HistoryOrderProductPageState extends State<HistoryOrderProductPage> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         /// #image
-                        child: Image.network(
-                          items.products.imageUrl,
-                          fit: BoxFit.contain,
+                        child:  CachedNetworkImage(
+                          imageUrl: items.products.imageUrl,
+                          placeholder: (context,url) => const ColoredBox(
+                            color: Colors.transparent,
+                          ),
+                          errorWidget: (context,url,error) => const Icon(Icons.error),
                         ),
                       ),
                       const SizedBox(

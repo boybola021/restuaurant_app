@@ -27,6 +27,25 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:219554701502:android:ef48306c8660002e7cfeef",
+        "android_client_info": {
+          "package_name": "com.pdp.g5.admin_panel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQdGvOCuu_SR0iR18044lalL58CBKhSIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:219554701502:android:0a5da008847d65e97cfeef",
         "android_client_info": {
           "package_name": "com.pdp.g5.firebese_auth_and_todo"

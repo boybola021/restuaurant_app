@@ -30,7 +30,7 @@ class DeleteUserButton extends StatelessWidget {
                       localRepository.deleteUser();
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                            builder: (context) => const SignUpScreen(),
+                            builder: (context) =>  SignUpScreen(),
                           ),
                               (route) => false);
                     } else {
@@ -60,7 +60,7 @@ class DeleteUserButton extends StatelessWidget {
                       localRepository.deleteUser();
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                            builder: (context) => const SignInScreen(),
+                            builder: (context) =>  SignInScreen(),
                           ),
                               (route) => false);
                     } else {

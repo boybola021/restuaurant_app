@@ -37,7 +37,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const SignInScreen()),);
+                              builder: (context) =>  SignInScreen()),);
                       }
                   },
                   child: const Text("Ok"),
@@ -61,7 +61,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const SignInScreen()),);
+                              builder: (context) =>  SignInScreen()),);
                     }
                   },
                   child: const Text("Ok"),

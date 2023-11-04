@@ -8,6 +8,7 @@ class CustomTextWidget extends StatelessWidget {
   double fontSize;
   FontWeight fontWeight;
   TextDecoration decoration;
+  TextOverflow? overflow;
   double? wordSpacing;
     CustomTextWidget({Key? key,
     required this.text,
@@ -17,6 +18,7 @@ class CustomTextWidget extends StatelessWidget {
     this.fontWeight = FontWeight.w500,
     required this.fontSize,
       this.wordSpacing,
+      this.overflow,
   }) : super(key: key);
 
   @override
@@ -24,8 +26,10 @@ class CustomTextWidget extends StatelessWidget {
     return Text(
       text,
       textAlign: positionText,
+      overflow: overflow,
       style: TextStyle(
        decoration: decoration,
+          decorationColor: Colors.red,
           decorationThickness: 1.5,
           wordSpacing: wordSpacing,
           decorationStyle: TextDecorationStyle.solid,

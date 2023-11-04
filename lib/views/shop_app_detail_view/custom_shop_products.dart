@@ -1,7 +1,3 @@
-
-
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/packages_all.dart';
@@ -39,7 +35,7 @@ class CustomShopPageProducts extends StatelessWidget {
                   ),
                   child: Image.network(
                     items.products.imageUrl,
-                    fit: BoxFit.contain,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 const SizedBox(width: 20,),
@@ -113,3 +109,5 @@ class CustomShopPageProducts extends StatelessWidget {
     );
   }
 }
+
+/// TODO Image tug'irlash kere

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/packages_all.dart';
 
@@ -38,10 +39,13 @@ class CustomCarouselSlider extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
               ),
               child: products[index].imageUrl.isNotEmpty
-                  ? Image.network(
-                      products[index].imageUrl,
-                    )
-                  : const CircularProgressIndicator.adaptive(),
+                  ?  CachedNetworkImage(
+                imageUrl:products[index].imageUrl ,
+                placeholder: (context,url) => const ColoredBox(
+                  color: Colors.transparent,
+                ),
+                errorWidget: (context,url,error) => const Icon(Icons.error),
+              ) : const CircularProgressIndicator.adaptive(),
             ),
           ),
         ),

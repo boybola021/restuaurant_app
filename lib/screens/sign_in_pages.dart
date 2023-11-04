@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/packages_all.dart';
 import 'package:restaurant_app/screens/forget_password.dart';
+import 'package:uuid/uuid.dart';
+import 'loading_page.dart';
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({Key? key}) : super(key: key);
+   bool isValid;
+   String? name;
+   SignInScreen({Key? key,this.isValid = false,this.name}) : super(key: key);
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -15,16 +19,37 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController controllerPassword = TextEditingController();
   static bool visibility = false;
 
-  void checkLogIn(context) async {
-    final userLogIn = await AuthService.signIn(
-        controllerEmail.text.trim(), controllerPassword.text.trim());
-    if (userLogIn) {
+  void checkLogIn() async {
+    String email = controllerEmail.text.trim();
+    String password = controllerPassword.text.trim();
+    if (email.isEmpty ||
+        password.isEmpty) {
+      KTScaffoldMessage.scaffoldMessage(context, "Please fill out all fields");
+      return;
+    }
+    showDialog(
+        context: context,
+        builder: (context){
+          return const LoadingPage();
+        });
+    widget.isValid = false;
+    final userLogIn = await AuthService.signIn(email, password);
+     debugPrint(userLogIn.toString());
+    if (userLogIn && context.mounted) {
+      final userLogIn = UserSRC(
+          id: const Uuid().v4(),
+          name: widget.name ?? "No name",
+          email: email,
+          password: password,
+          history: []);
+      await localRepository.storeUser(userLogIn);
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => const BasePages()),
           (route) => false);
-    } else {
-      KTScaffoldMessage.scaffoldMessage(context, CustomString.notLogin);
+    } else if(context.mounted){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignInScreen(isValid: true,)));
+      //KTScaffoldMessage.scaffoldMessage(context, CustomString.notLogin);
     }
   }
 
@@ -35,7 +60,7 @@ class _SignInScreenState extends State<SignInScreen> {
         preferredSize: Size(double.infinity, 50.h),
         child: CustomAppBar(
           text: CustomString.logIn,
-          fontSize: 25,
+          fontSize: 30.sp,
           height: MediaQuery.sizeOf(context).height,
         ),
       ),
@@ -49,53 +74,45 @@ class _SignInScreenState extends State<SignInScreen> {
                Column(
                  crossAxisAlignment: CrossAxisAlignment.start,
                  children: [
-                   CustomTextWidget(text: CustomString.email, fontSize: 20),
-                   Container(
-                     height: 50.h,
-                     alignment: Alignment.center,
-                     child: CustomTextField(
-                       onSubmitted: (String text) {
-                         if (!Utils.regexEmail(text)) {
-                           KTScaffoldMessage.scaffoldMessage(
-                               context, CustomString.emailMessage);
-                           controllerEmail.text = "";
-                         }
-                       },
-                       prefix: CustomIcons.email,
-                       controller: controllerEmail,
-                     ),
+                   CustomTextWidget(text: CustomString.email, fontSize: 20.sp),
+                   CustomTextField(
+                     onSubmitted: (String text) {
+                       if (!Utils.regexEmail(text)) {
+                         KTScaffoldMessage.scaffoldMessage(
+                             context, CustomString.emailMessage);
+                         controllerEmail.text = "";
+                       }
+                     },
+                     prefix: CustomIcons.email,
+                     controller: controllerEmail,
+                     errorText: widget.isValid? CustomString.invalidValueEmail : null,
                    ),
-                   SizedBox(
-                     height: 15.h,
-                   ),
+                   SizedBox(height: 5.h,),
                    CustomTextWidget(
                      text: CustomString.password,
                      fontSize: 20.sp,
                    ),
-                   Container(
-                     height: 50.h,
-                     alignment: Alignment.center,
-                     child: CustomTextField(
-                       prefix: CustomIcons.lock,
-                       obscureText: visibility,
-                       onSubmitted: (String text) {
-                         if (!Utils.regexPassword(text)) {
-                           KTScaffoldMessage.scaffoldMessage(
-                               context, CustomString.passwordMessage);
-                           controllerPassword.text = "";
-                         }
+                   CustomTextField(
+                     prefix: CustomIcons.lock,
+                     obscureText: visibility,
+                     onSubmitted: (String text) {
+                       if (!Utils.regexPassword(text)) {
+                         KTScaffoldMessage.scaffoldMessage(
+                             context, CustomString.passwordMessage);
+                         controllerPassword.text = "";
+                       }
+                     },
+                     suffixIcon: IconButton(
+                       onPressed: () {
+                         visibility = !visibility;
+                         setState(() {});
                        },
-                       suffixIcon: IconButton(
-                         onPressed: () {
-                           visibility = !visibility;
-                           setState(() {});
-                         },
-                         icon: visibility
-                             ? CustomIcons.visibility_off
-                             : CustomIcons.visibility,
-                       ),
-                       controller: controllerPassword,
+                       icon: visibility
+                           ? CustomIcons.visibility_off
+                           : CustomIcons.visibility,
                      ),
+                     controller: controllerPassword,
+                     errorText: widget.isValid? CustomString.invalidValuePass : null,
                    ),
                    Align(
                      alignment: Alignment.centerRight,
@@ -110,6 +127,8 @@ class _SignInScreenState extends State<SignInScreen> {
                        child: Text(
                          CustomString.forgetPasswordText,
                          style: TextStyle(
+                           decoration: TextDecoration.underline,
+                           decorationColor: Colors.red,
                            fontSize: 20.sp,
                            color: Colors.red,
                          ),
@@ -120,7 +139,7 @@ class _SignInScreenState extends State<SignInScreen> {
                      height: 30.h,
                    ),
                    CustomButton(
-                     page: () => checkLogIn(context),
+                     page: checkLogIn,
                      text: CustomString.next,
                    ),
                  ],
@@ -151,7 +170,7 @@ class _SignInScreenState extends State<SignInScreen> {
                    children: [
                      CustomTextWidget(
                        text: CustomString.dontHaveAccount,
-                       fontSize: 15.sp,
+                       fontSize: 18.sp,
                        color: Colors.grey,
                      ),
                      TextButton(
@@ -159,7 +178,7 @@ class _SignInScreenState extends State<SignInScreen> {
                          Navigator.push(
                              context,
                              MaterialPageRoute(
-                                 builder: (context) => const SignUpScreen()));
+                                 builder: (context) =>  SignUpScreen()));
                        },
                        clipBehavior: Clip.antiAlias,
                        child: CustomTextWidget(

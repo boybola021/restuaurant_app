@@ -18,7 +18,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   final Set<Polyline> _polyline = {};
   final CameraPosition _position = const CameraPosition(
       target: LatLng(41.29409806639359, 69.27053411630216),
-      zoom: 15
+      zoom: 20
   );
 
 

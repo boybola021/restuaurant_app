@@ -82,7 +82,7 @@ class _RestaurantState extends State<Restaurant> {
           initialRoute: pages,
           routes: {
             "/welcome_pages.dart": (BuildContext context) => const FirstPage(),
-            "/base_page.dart": (BuildContext context) => const BasePages(),
+            "/base_page.dart": (BuildContext context) =>  const BasePages(),
           },
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.dark,

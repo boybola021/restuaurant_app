@@ -10,19 +10,29 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  smooth_page_indicator: ^1.1.0
   bloc: ^8.1.2
+
+  #responsive
   flutter_screenutil: ^5.9.0
+
+  #animation for
   cube_transition_plus: ^2.0.1
 
 
   cupertino_icons: ^1.0.2
-  cached: ^1.6.1
-  image: ^4.0.17
+
+  #local storage
   shared_preferences: ^2.2.0
+
+  #flutter bloc/cubit architecture
   flutter_bloc: ^8.1.3
-  carousel_slider: ^4.2.1
   equatable: ^2.0.5
+
+  #carusel
+  carousel_slider: ^4.2.1
+
+
+  #firebase technology
   firebase_core: ^2.19.0
   firebase: ^9.0.3
   firebase_auth: ^4.9.0
@@ -39,8 +49,15 @@ dependencies:
   geolocator: ^9.0.0
   flutter_compass: ^0.8.0
   flutter_polyline_points: ^1.0.0
+
+  #link and phone
   url_launcher: ^6.2.1
+  # id generator
   uuid: ^4.1.0
+  #image cached
+  cached_network_image: ^3.3.0
+  cached: ^1.6.1
+  image: ^4.0.17
 
 
 dev_dependencies:

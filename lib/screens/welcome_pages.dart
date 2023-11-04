@@ -129,11 +129,14 @@ class TwoPage extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            CustomTextWidget(
-                text: CustomString.ourRestaurant,
-                positionText: TextAlign.center,
-                fontWeight: FontWeight.w500,
-                fontSize: 22.sp),
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 20.w),
+              child: CustomTextWidget(
+                  text: CustomString.ourRestaurant,
+                  positionText: TextAlign.center,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 25.sp),
+            ),
             SizedBox(
               height: y / 30,
             ),
@@ -160,7 +163,6 @@ class TwoPage extends StatelessWidget {
               ],
             ),
             const Spacer(),
-
           ],
         ),
       ),
@@ -191,11 +193,13 @@ class ThreePage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: ListView(
             children: [
+              SizedBox(height: 20.h,),
               CustomTextWidget(
                   text: CustomString.seatSelection,
                   positionText: TextAlign.center,
                   fontSize: 28.sp,
                   fontWeight: FontWeight.w600),
+              SizedBox(height: 30.h,),
               Center(
                 child: Container(
                   height: y / 2.3.h,
@@ -210,11 +214,12 @@ class ThreePage extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 25.h,),
               CustomTextWidget(
                 text: CustomString.appUseSelectRestaurant,
                 positionText: TextAlign.center,
                 fontWeight: FontWeight.w500,
-                fontSize: 22.sp,
+                fontSize: 25.sp,
               ),
               SizedBox(height: 20.h,),
               const Row(
@@ -317,7 +322,7 @@ class FourPage extends StatelessWidget {
             ),
             CustomButton(
               page: () {
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const SignInScreen()), (route) => false);
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) =>  SignInScreen()), (route) => false);
               },
               text: CustomString.next,
             ),

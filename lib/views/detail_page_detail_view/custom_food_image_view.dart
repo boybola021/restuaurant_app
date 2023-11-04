@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/packages_all.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -20,7 +21,13 @@ class CustomFoodImagesView extends StatelessWidget {
           itemBuilder: (context,i){
             return Card(
               elevation: 10,
-              child: Image.network(product.imageUrl[i],fit: BoxFit.contain,),
+              child:  CachedNetworkImage(
+                imageUrl: product.imageUrl,
+                placeholder: (context,url) => const ColoredBox(
+                  color: Colors.transparent,
+                ),
+                errorWidget: (context,url,error) => const Icon(Icons.error),
+              ),
             );
           },
         ),

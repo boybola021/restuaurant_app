@@ -39,13 +39,12 @@ class _HomePageState extends State<HomePage> {
           children: [
             UserAccountsDrawerHeader(
               accountName: Text(
-               login.first.name,
-                style: const TextStyle(fontSize: 20),
+                login.first.name,
+                style:  TextStyle(fontSize: 20.sp,color: Colors.white),
               ),
               accountEmail: Text( login.first.email,
-                  style: Theme.of(context).textTheme.titleLarge),
+                  style: TextStyle(fontSize: 20.sp,color: Colors.white)),
             ),
-
             /// #log out
            const LogOutButton(),
             /// #delate account
@@ -55,7 +54,8 @@ class _HomePageState extends State<HomePage> {
       ),
       body: BlocBuilder<AllProductsCubit, AllProductsState>(
         builder: (context, state) {
-          if (state is AllProductsInitial) {
+          debugPrint(state.runtimeType.toString());
+          if (state is AllProductsInitial || state is AllProductsLoading) {
             return const LoadingPage();
           }
           if (state is GetAllProducts) {
@@ -65,13 +65,11 @@ class _HomePageState extends State<HomePage> {
                 SliverAppBar(
                   automaticallyImplyLeading: false,
                   expandedHeight: 170.h,
-
                   /// #CaruselSliver
                   flexibleSpace: CustomCarouselSlider(
                     products: state.products,
                   ),
                 ),
-
                 /// #Category
                  SliverToBoxAdapter(
                   child: Padding(

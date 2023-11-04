@@ -1,7 +1,7 @@
 import 'package:restaurant_app/packages_all.dart';
 
 class UserSRC{
-  int id;
+  String id;
   String name;
   String email;
   String password;
@@ -17,7 +17,7 @@ class UserSRC{
 
   factory UserSRC.fromJson(Map<String,Object?> json){
     return UserSRC(
-        id: json["id"] as int,
+        id: json["id"] as String,
         name: json["name"] as String,
         email: json["email"] as String,
         password: json["password"] as String,
